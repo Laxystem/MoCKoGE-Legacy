@@ -1,0 +1,21 @@
+package io.github.laylameower.hexgine.mesh
+
+/**
+ * Represents a static model, that cannot and would not change. Usually loaded from file.
+ */
+data class Model(override val vertices: Array<Vertex>) : Mesh, Iterable<Vertex> by vertices.asIterable() {
+    constructor(vararg vertices: Vertex) : this(arrayOf(*vertices))
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Model
+
+        return vertices.contentEquals(other.vertices)
+    }
+
+    override fun hashCode(): Int {
+        return vertices.contentHashCode()
+    }
+}
