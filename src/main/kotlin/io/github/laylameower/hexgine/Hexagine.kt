@@ -18,7 +18,7 @@ import org.lwjgl.glfw.GLFW.GLFW_TRUE as True
 import org.lwjgl.glfw.GLFW.glfwInit as tryToInitialize
 import org.lwjgl.system.MemoryUtil.NULL as Null
 
-class Hexagine(var scene: Scene, @Suppress("CanBeParameter") val bundles: List<Bundle>) : Runnable {
+class Hexagine(var scene: Scene, bundles: List<Bundle>) : Runnable {
 
     companion object {
         @JvmStatic
