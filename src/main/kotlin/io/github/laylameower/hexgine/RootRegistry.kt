@@ -1,8 +1,5 @@
 package io.github.laylameower.hexgine
 
-import kotlin.reflect.KClass
+import io.github.laylameower.hexgine.utils.registries
 
-/**
- * Registries are rings, because I said so.
- */
-object RootRegistry: Registry<Registry<*, *>, KClass<*>>(Registry::class, KClass::class)
+object RootRegistry: Registry<Registry<*>>(registries, Registry::class.java)

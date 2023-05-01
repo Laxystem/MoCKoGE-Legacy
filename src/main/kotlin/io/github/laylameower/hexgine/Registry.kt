@@ -1,21 +1,18 @@
 package io.github.laylameower.hexgine
 
-import io.github.laylameower.hexgine.Application.Companion.BUNDLE
+import io.github.laylameower.hexgine.Hexagine.Companion.BUNDLE
 import io.github.laylameower.hexgine.utils.Named
-import kotlin.reflect.KClass
-import kotlin.reflect.safeCast
 
 /**
  * @param T value type
- * @param K key type
  */
-abstract class Registry<T : Any>(override val name: Identifier, val valueType: KClass<T>) :
+abstract class Registry<T : Any>(override val name: Identifier, val valueType: Class<T>) :
     Iterable<Map.Entry<Identifier, T>>, Named<Identifier> {
     private val contents = mutableMapOf<Identifier, T>()
 
     init {
         @Suppress("LeakingThis")
-        RootRegistry.register(valueType, this)
+        RootRegistry.register(name, this)
     }
 
     fun register(identifier: Identifier, value: T): T? = if (contents.containsKey(identifier)) {
@@ -32,14 +29,29 @@ abstract class Registry<T : Any>(override val name: Identifier, val valueType: K
         null
     }
 
-    open fun isValid(value: T, identifier: K) = true
+    open fun isValid(value: T, identifier: Identifier) = !isFrozen
 
     override fun iterator() = contents.iterator()
 
     operator fun get(identifier: Identifier) = contents[identifier]
-    operator fun set(identifier: Identifier, value: T) = register(identifier, value)
+    operator fun get(value: T) = contents.asSequence().filter { it.value == value }.firstOrNull()?.key
 
     operator fun set(identifier: Identifier, value: Any): T? {
-        return register(identifier, valueType.safeCast(value) ?: return null)
+        return register(identifier, valueType.cast(value) ?: return null)
+    }
+
+    companion object {
+        var isFrozen = true
+            private set
+
+        internal fun unfreeze() {
+            BUNDLE.logger.info("Unfreezing registries...")
+            isFrozen = false
+        }
+
+        internal fun freeze() {
+            BUNDLE.logger.info("Freezing registries...")
+            isFrozen = true
+        }
     }
 }

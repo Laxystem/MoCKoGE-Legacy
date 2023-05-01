@@ -1,4 +1,4 @@
-package io.github.laylameower.hexgine.resources
+package io.github.laylameower.hexgine.loader.kts
 
 import io.github.z4kn4fein.semver.Version
 import kotlin.script.experimental.annotations.KotlinScript
@@ -7,14 +7,16 @@ typealias Definer = DefinitionsScript.() -> Unit
 
 typealias SpecificDefiner<T> = DefinitionsScript.Registrar<T>.() -> Unit
 
+typealias RegistryReferencer<T> = DefinitionsScript.NamespaceReference<T>.() -> Unit
+
 @KotlinScript(fileExtension = "hexabundle.kts", compilationConfiguration = HexabundleScriptConfiguration::class)
 abstract class HexabundleScript {
-    abstract var namespace: String
-        protected set
     abstract var version: Version
         protected set
+    open var name: String? = null
+        protected set
 
-    var definer: Definer? = null
+    internal var definer: Definer? = null
         private set
 
     protected fun definitions(definer: Definer) {

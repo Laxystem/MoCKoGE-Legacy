@@ -2,10 +2,9 @@
 
 package io.github.laylameower.hexgine
 
+import io.github.laylameower.hexgine.scene.Scene
+import io.github.laylameower.hexgine.utils.*
 import io.github.laylameower.hexgine.utils.applyWindowHints
-import io.github.laylameower.hexgine.utils.asVersion
-import io.github.laylameower.hexgine.utils.x
-import io.github.laylameower.hexgine.utils.y
 import org.joml.Vector2i
 import org.lwjgl.glfw.Callbacks.glfwFreeCallbacks
 import org.lwjgl.glfw.GLFW.*
@@ -19,14 +18,12 @@ import org.lwjgl.glfw.GLFW.GLFW_TRUE as True
 import org.lwjgl.glfw.GLFW.glfwInit as tryToInitialize
 import org.lwjgl.system.MemoryUtil.NULL as Null
 
-@Suppress("EmptyMethod")
-abstract class Application : Runnable {
-    abstract val title: String
+class Hexagine(var scene: Scene, val bundles: List<Bundle>) : Runnable {
 
     companion object {
-        @JvmField
-        internal val BUNDLE: Bundle =
-            Bundle("hexagine", "Hexagine", System.getProperty("hexagine-version").asVersion, emptyMap())
+        @JvmStatic
+        internal lateinit var bundle: Bundle
+            private set
     }
 
     private var window = 0L
@@ -42,17 +39,27 @@ abstract class Application : Runnable {
         private set
     private var vao: Int = 0 // <- magic stuff it just works
     private var vbo: Int = 0 // <- they both exist dunno why
+    
+    init {
+        bundle = with(bundles) {
+            forEach {
+                if (it.namespace == hexagine) return@with it
+            }
+            
+            throw IllegalArgumentException("Requires engine bundle")
+        }
+    }
 
 
     override fun run() {
-        BUNDLE.logger.info("Launching Hexagine (${BUNDLE.version}) with LWJGL (${lwjglVersion()}) & Log4J (${log4jVersion()})")
-        if (!BUNDLE.version.isStable) BUNDLE.logger.warn("You're using an unstable version of Hexagine! Here be dragons!")
+        bundle.logger.info("Launching Hexagine (${bundle.version}) with LWJGL (${lwjglVersion()}) & Log4J (${log4jVersion()})")
+        if (!bundle.version.isStable) bundle.logger.warn("You're using an unstable version of Hexagine! Here be dragons!")
 
         try {
             initiate()
             runGameLoop()
         } catch (e: Exception) {
-            BUNDLE.logger.fatal("Caught unhandled critical error. Expect disposal errors.", e)
+            bundle.logger.fatal("Caught unhandled critical error. Expect disposal errors.", e)
         } finally {
             dispose()
         }
@@ -75,7 +82,7 @@ abstract class Application : Runnable {
 
         ).applyWindowHints()
 
-        window = glfwCreateWindow(windowSize.x, windowSize.y, title, Null, Null)
+        window = glfwCreateWindow(windowSize.x, windowSize.y, scene.title, Null, Null)
 
         if (window == Null) throw RuntimeException("GLFW window initialization failed")
 
@@ -132,7 +139,7 @@ abstract class Application : Runnable {
     }
 
     private fun dispose() {
-        BUNDLE.logger.debug("Disposing...")
+        bundle.logger.debug("Disposing...")
 
         glfwFreeCallbacks(window)
         glfwDestroyWindow(window)
@@ -140,10 +147,10 @@ abstract class Application : Runnable {
         glfwTerminate()
         glfwSetErrorCallback(null)?.free()
 
-        BUNDLE.logger.info("Closed Hexagine after $time seconds.")
+        bundle.logger.info("Closed Hexagine after $time seconds.")
     }
 
-    protected open fun handleKeys(window: Long, key: Int, scancode: Int, action: Int, mods: Int) {
+    private fun handleKeys(window: Long, key: Int, scancode: Int, action: Int, mods: Int) {
         when (key) {
             GLFW_KEY_ESCAPE -> if (action == GLFW_RELEASE) glfwSetWindowShouldClose(window, true)
         }

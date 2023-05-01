@@ -1,5 +1,7 @@
+import org.jetbrains.kotlin.gradle.plugin.extraProperties
+
 plugins {
-    kotlin("jvm") version "1.8.20"
+    kotlin("jvm") version "1.8.21"
     application
 }
 
@@ -49,10 +51,36 @@ tasks.test {
     useJUnitPlatform()
 }
 
+val bundle = tasks.register("bundle") {
+    doLast {
+        project.delete("out/bundles")
+
+        copy {
+            from("build/libs")
+            include("*.jar")
+            exclude("hexagine-$version.jar")
+            exclude("*-sources.jar")
+            exclude("*-javadoc.jar")
+            into("out/bundles")
+            rename {
+                if (it.endsWith(".jar"))
+                    "${it.substringBeforeLast(".jar")}.hexabundle"
+                else it
+            }
+        }
+    }
+}
+
 kotlin {
     jvmToolchain(17)
 }
 
 application {
-    mainClass.set("io.github.laylameower.MainKt")
+    mainClass.set("io.github.laylameower.hexgine.HexagineLauncherKt")
+    applicationDefaultJvmArgs = listOf("-DhexagineVersion=$version")
+
+    tasks.withType<JavaExec> {
+        dependsOn(bundle)
+        workingDir = rootProject.file("out")
+   }
 }

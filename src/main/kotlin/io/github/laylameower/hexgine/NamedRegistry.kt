@@ -1,13 +1,12 @@
 package io.github.laylameower.hexgine
 
-import io.github.laylameower.hexgine.utils.Named
-import kotlin.reflect.KClass
+import io.github.laylameower.hexgine.utils.*
 
-abstract class NamedRegistry<T : Named<N>, N>(valueType: KClass<T>) : Registry<T, Identifier>(valueType, Identifier::class) {
-    fun register(namespace: String, value: T) = register(Identifier(namespace, value.name.toString()), value)
+abstract class NamedRegistry<T : Named<String>>(name: Identifier, valueType: Class<T>) : Registry<T>(name, valueType) {
+    fun register(namespace: String, value: T) = register(value.name at namespace, value)
     operator fun set(namespace: String, value: T) = register(namespace, value)
 
     override fun isValid(value: T, identifier: Identifier): Boolean {
-        return value.name.toString() == identifier.path
+        return !isFrozen && value.name == identifier.path
     }
 }
