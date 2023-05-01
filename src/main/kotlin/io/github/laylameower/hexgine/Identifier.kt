@@ -2,6 +2,7 @@ package io.github.laylameower.hexgine
 
 import io.github.laylameower.hexgine.utils.Validatable
 
+@Suppress("DataClassPrivateConstructor")
 data class Identifier private constructor(val namespace: String, val path: String) : Validatable {
     override val isValid get() = regex.matches(namespace) && regex.matches(path)
 
@@ -20,7 +21,7 @@ data class Identifier private constructor(val namespace: String, val path: Strin
         val fullRegex = Regex("${regex.pattern}:${regex.pattern}")
 
         @JvmStatic
-        fun of(identifier: String) = if (fullRegex.matches(identifier)) Identifier.of(
+        fun of(identifier: String) = if (fullRegex.matches(identifier)) of(
             identifier.substringBefore(':'),
             identifier.substringAfter(':')
         ) else null

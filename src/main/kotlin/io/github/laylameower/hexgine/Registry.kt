@@ -1,6 +1,6 @@
 package io.github.laylameower.hexgine
 
-import io.github.laylameower.hexgine.Hexagine.Companion.BUNDLE
+import io.github.laylameower.hexgine.Hexagine.Companion.bundle
 import io.github.laylameower.hexgine.utils.Named
 
 /**
@@ -16,16 +16,16 @@ abstract class Registry<T : Any>(override val name: Identifier, val valueType: C
     }
 
     fun register(identifier: Identifier, value: T): T? = if (contents.containsKey(identifier)) {
-        BUNDLE.logger.warn("Attempted to override [$identifier] in registry [$name] with [$value]")
+        bundle.logger.warn("Attempted to override [$identifier] in registry [$name] with [$value]")
         null
     } else if (contents.containsValue(value)) {
-        BUNDLE.logger.warn("Attempted to register duplicate of [$value] at [$identifier] in registry [$name]")
+        bundle.logger.warn("Attempted to register duplicate of [$value] at [$identifier] in registry [$name]")
         null
     } else if (isValid(value, identifier)) {
         contents[identifier] = value
         value
     } else {
-        BUNDLE.logger.warn("Attempted to insert invalid value [$value] at [$identifier] in registry [$name]")
+        bundle.logger.warn("Attempted to insert invalid value [$value] at [$identifier] in registry [$name]")
         null
     }
 
@@ -45,12 +45,12 @@ abstract class Registry<T : Any>(override val name: Identifier, val valueType: C
             private set
 
         internal fun unfreeze() {
-            BUNDLE.logger.info("Unfreezing registries...")
+            bundle.logger.info("Unfreezing registries...")
             isFrozen = false
         }
 
         internal fun freeze() {
-            BUNDLE.logger.info("Freezing registries...")
+            bundle.logger.info("Freezing registries...")
             isFrozen = true
         }
     }

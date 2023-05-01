@@ -3,7 +3,6 @@ package io.github.laylameower.hexgine.loader.kts
 import io.github.laylameower.hexgine.Bundle
 import io.github.laylameower.hexgine.loader.ResourceLoader
 import org.apache.logging.log4j.Logger
-import kotlin.math.log
 import kotlin.script.experimental.api.ResultValue
 import kotlin.script.experimental.api.ResultWithDiagnostics
 import kotlin.script.experimental.api.ScriptDiagnostic

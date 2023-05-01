@@ -3,9 +3,7 @@ package io.github.laylameower.hexgine
 import io.github.laylameower.hexgine.loader.kts.KotlinScriptResourceLoader
 import io.github.laylameower.hexgine.utils.*
 import org.apache.logging.log4j.LogManager
-import org.apache.logging.log4j.core.config.ConfigurationFactory
 import java.io.BufferedReader
-import java.io.File
 import java.nio.file.FileSystemNotFoundException
 import java.nio.file.FileSystems
 import java.nio.file.Path
@@ -72,6 +70,8 @@ fun main() {
 
     LOGGER.info("Loading bundles...")
 
+    Registry.unfreeze()
+
     bundles.forEach { bundle ->
         bundle.logger.debug("Initializing version {}", bundle.version)
 
@@ -80,8 +80,10 @@ fun main() {
         }
     }
 
+    Registry.freeze()
+
     TODO("Scenes")
-    TODO("Relations")
+    // TODO("Relations")
 
     // Hexagine(null, bundles)
 }

@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.plugin.extraProperties
-
 plugins {
     kotlin("jvm") version "1.8.21"
     application

@@ -9,6 +9,7 @@ import io.github.laylameower.hexgine.entity.Entity
  * @author Laxla
  * @author Gaming32
  */
+@Suppress("unused")
 class Scene(var title: String) : Iterable<Entity> {
     @PublishedApi
     internal val entities = mutableListOf<Entity>()

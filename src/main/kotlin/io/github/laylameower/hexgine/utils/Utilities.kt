@@ -15,8 +15,6 @@ import org.lwjgl.glfw.GLFWVidMode
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStream
-import java.util.zip.ZipEntry
-import java.util.zip.ZipFile
 
 val GLFWVidMode.x get() = width()
 val GLFWVidMode.y get() = height()

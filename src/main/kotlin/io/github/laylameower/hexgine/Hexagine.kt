@@ -18,7 +18,7 @@ import org.lwjgl.glfw.GLFW.GLFW_TRUE as True
 import org.lwjgl.glfw.GLFW.glfwInit as tryToInitialize
 import org.lwjgl.system.MemoryUtil.NULL as Null
 
-class Hexagine(var scene: Scene, val bundles: List<Bundle>) : Runnable {
+class Hexagine(var scene: Scene, @Suppress("CanBeParameter") val bundles: List<Bundle>) : Runnable {
 
     companion object {
         @JvmStatic
@@ -150,6 +150,7 @@ class Hexagine(var scene: Scene, val bundles: List<Bundle>) : Runnable {
         bundle.logger.info("Closed Hexagine after $time seconds.")
     }
 
+    @Suppress("UNUSED_PARAMETER") // TODO: Input System
     private fun handleKeys(window: Long, key: Int, scancode: Int, action: Int, mods: Int) {
         when (key) {
             GLFW_KEY_ESCAPE -> if (action == GLFW_RELEASE) glfwSetWindowShouldClose(window, true)

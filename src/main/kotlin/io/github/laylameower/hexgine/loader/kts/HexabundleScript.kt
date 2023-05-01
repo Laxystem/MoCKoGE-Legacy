@@ -9,6 +9,7 @@ typealias SpecificDefiner<T> = DefinitionsScript.Registrar<T>.() -> Unit
 
 typealias RegistryReferencer<T> = DefinitionsScript.NamespaceReference<T>.() -> Unit
 
+@Suppress("Unused")
 @KotlinScript(fileExtension = "hexabundle.kts", compilationConfiguration = HexabundleScriptConfiguration::class)
 abstract class HexabundleScript {
     abstract var version: Version

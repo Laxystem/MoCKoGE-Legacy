@@ -7,6 +7,7 @@ import io.github.z4kn4fein.semver.Version
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
+@Suppress("unused")
 class Bundle internal constructor(
     val namespace: String,
     val bundleName: String,

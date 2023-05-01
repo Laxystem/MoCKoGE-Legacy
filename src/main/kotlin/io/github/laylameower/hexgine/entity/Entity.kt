@@ -5,6 +5,7 @@ package io.github.laylameower.hexgine.entity
  * @author Laxla
  * @author Gaming32
  */
+@Suppress("unused")
 class Entity : Iterable<Component<*>> {
     @PublishedApi
     internal val components = mutableListOf<Component<*>>()
