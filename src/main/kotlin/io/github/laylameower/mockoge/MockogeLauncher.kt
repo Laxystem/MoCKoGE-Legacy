@@ -22,7 +22,7 @@ fun main() {
 
     LOGGER.info("Querying for built-in bundles...")
 
-    Mockoge::class.java.classLoader.getResource("$mockoge${KotlinScriptResourceLoader.bundleExtension}")!!.toURI().let {
+    Mockoge::class.java.getResource("/$mockoge${KotlinScriptResourceLoader.bundleExtension}")!!.toURI().let {
 
         try {
             Path.of(it)
