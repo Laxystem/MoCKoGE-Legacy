@@ -4,14 +4,10 @@ plugins {
 }
 
 group = "io.github.laylameower"
-version = "0.0.1"
+version = "0.0.1-alpha"
 
 repositories {
     mavenCentral()
-    maven {
-        name = "Quilt"
-        url = uri("https://maven.quiltmc.org/repository/release")
-    }
 }
 
 val lwjgl = "3.3.2"
@@ -20,7 +16,7 @@ val log4j = "2.20.0"
 val semver = "1.4.2"
 val coroutines = "1.6.4"
 
-val lwjglNatives = "natives-windows"
+val lwjglNatives = "natives-windows" // TODO: Support More Natives
 
 dependencies {
     testImplementation(kotlin("test"))
@@ -28,12 +24,12 @@ dependencies {
     implementation("org.jetbrains.kotlin", "kotlin-scripting-common")
     implementation("org.jetbrains.kotlin", "kotlin-scripting-jvm")
     implementation("org.jetbrains.kotlin", "kotlin-scripting-jvm-host")
-    implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", coroutines)
+    api("org.jetbrains.kotlinx", "kotlinx-coroutines-core", coroutines)
 
-    implementation("org.joml", "joml", joml)
-    implementation("org.apache.logging.log4j", "log4j-api", log4j)
+    api("org.joml", "joml", joml)
+    api("org.apache.logging.log4j", "log4j-api", log4j)
     implementation("org.apache.logging.log4j", "log4j-core", log4j)
-    implementation("io.github.z4kn4fein", "semver", semver)
+    api("io.github.z4kn4fein", "semver", semver)
 
     implementation(platform("org.lwjgl:lwjgl-bom:$lwjgl"))
 
@@ -56,7 +52,7 @@ val bundle = tasks.register("bundle") {
         copy {
             from("build/libs")
             include("*.jar")
-            exclude("hexagine-$version.jar")
+            exclude("mockoge-$version.jar")
             exclude("*-sources.jar")
             exclude("*-javadoc.jar")
             into("out/bundles")
@@ -74,8 +70,8 @@ kotlin {
 }
 
 application {
-    mainClass.set("io.github.laylameower.hexgine.HexagineLauncherKt")
-    applicationDefaultJvmArgs = listOf("-DhexagineVersion=$version")
+    mainClass.set("io.github.laylameower.mockoge.MockogeLauncherKt")
+    applicationDefaultJvmArgs = listOf("-DmockogeVersion=$version")
 
     tasks.withType<JavaExec> {
         dependsOn(bundle)

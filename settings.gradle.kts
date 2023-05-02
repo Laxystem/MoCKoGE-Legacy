@@ -1,3 +1,3 @@
 
-rootProject.name = "hexagine"
+rootProject.name = "mockoge"
 
