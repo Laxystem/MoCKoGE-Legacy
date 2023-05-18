@@ -1,25 +1,12 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="run" type="GradleRunConfiguration" factoryName="Gradle">
-    <ExternalSystemSettings>
-      <option name="executionName" />
-      <option name="externalProjectPath" value="$PROJECT_DIR$" />
-      <option name="externalSystemIdString" value="GRADLE" />
-      <option name="scriptParameters" value="" />
-      <option name="taskDescriptions">
-        <list />
-      </option>
-      <option name="taskNames">
-        <list>
-          <option value="build" />
-          <option value="run" />
-        </list>
-      </option>
-      <option name="vmOptions" />
-    </ExternalSystemSettings>
-    <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-    <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-    <DebugAllEnabled>false</DebugAllEnabled>
-    <ForceTestExec>false</ForceTestExec>
-    <method v="2" />
+  <configuration default="false" name="run" type="JetRunConfigurationType">
+    <option name="MAIN_CLASS_NAME" value="io.github.laylameower.mockoge.MockogeLauncherKt" />
+    <module name="mockoge.main" />
+    <shortenClasspath name="NONE" />
+    <option name="VM_PARAMETERS" value="-DmockogeVersion=0.0.1-devenv" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/out/" />
+    <method v="2">
+      <option name="Gradle.BeforeRunTask" enabled="true" tasks="build" externalProjectPath="$PROJECT_DIR$" vmOptions="" scriptParameters="" />
+    </method>
   </configuration>
 </component>

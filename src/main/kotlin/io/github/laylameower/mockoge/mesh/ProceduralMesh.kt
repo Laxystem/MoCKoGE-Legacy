@@ -2,9 +2,10 @@ package io.github.laylameower.mockoge.mesh
 
 import io.github.laylameower.mockoge.util.Dirtable
 
-interface ProceduralMesh: Mesh, Dirtable {
+@Deprecated("May not be available in full release. Here for reference.")
+public interface ProceduralMesh: Mesh, Dirtable {
     /**
      * Will be called if [isDirty]
      */
-    fun preRender()
+    public suspend fun preRender()
 }

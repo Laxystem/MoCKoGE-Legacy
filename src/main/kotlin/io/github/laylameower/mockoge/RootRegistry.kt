@@ -1,5 +1,9 @@
 package io.github.laylameower.mockoge
 
-import io.github.laylameower.mockoge.util.registries
+import io.github.laylameower.mockoge.util.*
 
-object RootRegistry: Registry<Registry<*>>(registries, Registry::class.java)
+public object RootRegistry : Registry<Registry<*>>(Registry::class) {
+    init {
+        register(root at mockoge, this)
+    }
+}

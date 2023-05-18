@@ -1,40 +1,34 @@
 package io.github.laylameower.mockoge.loader.kts
 
 import io.github.laylameower.mockoge.Bundle
-import io.github.laylameower.mockoge.loader.ResourceLoader
+import io.github.laylameower.mockoge.loader.ResourceParser
+import io.github.laylameower.mockoge.util.*
 import org.apache.logging.log4j.Logger
 import kotlin.script.experimental.api.ResultValue
 import kotlin.script.experimental.api.ResultWithDiagnostics
-import kotlin.script.experimental.api.ScriptDiagnostic
 import kotlin.script.experimental.api.SourceCode
 import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost
 import kotlin.script.experimental.jvmhost.createJvmCompilationConfigurationFromTemplate
+import kotlinx.collections.immutable.toImmutableMap
 
-object KotlinScriptResourceLoader : ResourceLoader {
+public object KotlinScriptResourceParser : ResourceParser {
     private val host = BasicJvmScriptingHost()
-    private val entrypointCompilationConfiguration = createJvmCompilationConfigurationFromTemplate<MockogeScript>()
+    private val entrypointCompilationConfiguration = createJvmCompilationConfigurationFromTemplate<BundleScript>()
 
-    override val bundleExtension: String = ".bundle.kts"
+    override val bundleFileExtension: String = bundleFile
+    override val sceneFileExtension: String = sceneFile
 
-    override fun parseEntrypoint(entrypoint: SourceCode, fileName: String, logger: Logger): Bundle? {
+    override fun parseBundleFile(entrypoint: SourceCode, fileName: String, logger: Logger): Bundle? {
         val evaluationResult = host.eval(entrypoint, entrypointCompilationConfiguration, null)
 
-        evaluationResult.reports.forEach {
-            when (it.severity) {
-                ScriptDiagnostic.Severity.DEBUG -> logger.debug(it.message, it.exception)
-                ScriptDiagnostic.Severity.INFO -> logger.info(it.message, it.exception)
-                ScriptDiagnostic.Severity.WARNING -> logger.warn(it.message, it.exception)
-                ScriptDiagnostic.Severity.ERROR -> logger.error(it.message, it.exception)
-                ScriptDiagnostic.Severity.FATAL -> logger.fatal(it.message, it.exception)
-            }
-        }
+        evaluationResult.reports.forEach {it.logTo(logger)}
 
         val namespace = getNamespace(fileName, logger) ?: return null
 
         return (evaluationResult as? ResultWithDiagnostics.Success)?.value?.returnValue?.let { result ->
             val script = result.scriptInstance
 
-            if (script is MockogeScript) Bundle(
+            if (script is BundleScript) Bundle(
                 namespace,
                 script.name ?: namespace,
                 script.version ?: let {
@@ -43,7 +37,11 @@ object KotlinScriptResourceLoader : ResourceLoader {
                 },
                 DefinitionsScript(namespace).let {
                     script.definer?.invoke(it)
-                    it.definitions.toMap()
+                    it.definitions.toImmutableMap()
+                },
+                RegistryScript().let {
+                    script.registries?.invoke(it)
+                    it.registries.toImmutableMap()
                 })
             else {
                 if (result is ResultValue.Error)

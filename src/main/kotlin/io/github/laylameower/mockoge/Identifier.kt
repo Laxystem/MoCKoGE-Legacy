@@ -1,32 +1,47 @@
 package io.github.laylameower.mockoge
 
-import io.github.laylameower.mockoge.util.Validatable
+import io.github.laylameower.mockoge.util.*
 
+
+/**
+ * @constructor Use [Bundle.createIdentifier] or [at] instead.
+ */
 @Suppress("DataClassPrivateConstructor")
-data class Identifier private constructor(val namespace: String, val path: String) : Validatable {
-    override val isValid get() = regex.matches(namespace) && regex.matches(path)
+public data class Identifier private constructor(val namespace: String, val path: String) : Validatable {
+    override val isValid: Boolean get() = regex.matches(namespace) && regex.matches(path)
+
+    /**
+     * Does this identifier belong to the engine's or an official module's namespace?
+     */
+    val isOfficial: Boolean get() = namespace.startsWith(mockoge)
+
+    /**
+     * Does this identifier belong to the engine namespace?
+     */
+    val isEngine: Boolean get() = namespace == mockoge
 
     init {
         if (!isValid) throw IllegalArgumentException("Invalid identifier: path [$path] or namespace [$namespace] may not match regex [${regex.pattern}]")
     }
 
-    override fun toString() = "$namespace:$path"
+    override fun toString(): String = "$namespace:$path"
 
 
-    companion object {
+    public companion object {
+        private const val separator = ':'
+
         @JvmField
-        val regex = Regex("[a-z_]+(/[a-z_]+)*")
+        public val regex: Regex = "[a-z_]+(/[a-z_]+)*".toRegex()
 
         @JvmField
-        val fullRegex = Regex("${regex.pattern}:${regex.pattern}")
+        public val fullRegex: Regex = "${regex.pattern}$separator${regex.pattern}".toRegex()
 
         @JvmStatic
-        fun of(identifier: String) = if (fullRegex.matches(identifier)) of(
-            identifier.substringBefore(':'),
-            identifier.substringAfter(':')
-        ) else null
+        public fun of(identifier: String): Identifier? = identifier.ifMatches(regex) {
+            of(identifier.substringBefore(separator), identifier.substringAfter(separator))
+        }
 
         @JvmStatic
-        fun of(namespace: String, path: String) = Identifier(namespace, path)
+        public fun of(namespace: String, path: String): Identifier = Identifier(namespace, path)
     }
 }

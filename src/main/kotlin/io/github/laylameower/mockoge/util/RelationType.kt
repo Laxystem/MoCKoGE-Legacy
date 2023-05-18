@@ -1,5 +1,8 @@
 package io.github.laylameower.mockoge.util
 
-enum class RelationType {
+/**
+ * @see Relatable
+ */
+public enum class RelationType {
     REQUIRED, RECOMMENDED, INCOMPATIBLE;
 }

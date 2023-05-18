@@ -1,6 +1,6 @@
 package io.github.laylameower.mockoge
 
-import io.github.laylameower.mockoge.loader.kts.KotlinScriptResourceLoader
+import io.github.laylameower.mockoge.loader.kts.KotlinScriptResourceParser
 import io.github.laylameower.mockoge.util.*
 import org.apache.logging.log4j.LogManager
 import java.io.BufferedReader
@@ -15,14 +15,14 @@ import kotlin.script.experimental.host.toScriptSource
 
 private val LOGGER = LogManager.getLogger("$mockoge/loader")
 
-fun main() {
+public fun main() {
     LOGGER.info("Initializing MoCKoGE Loader...")
 
     val bundles = mutableListOf<Bundle>()
 
     LOGGER.info("Querying for built-in bundles...")
 
-    Mockoge::class.java.getResource("/$mockoge${KotlinScriptResourceLoader.bundleExtension}")!!.toURI().let {
+    Mockoge::class.java.getResource("/$mockoge.${KotlinScriptResourceParser.bundleFileExtension}")!!.toURI().let {
 
         try {
             Path.of(it)
@@ -33,9 +33,9 @@ fun main() {
             Path.of(it)
         }
 
-    }.parent.listDirectoryEntries("*${KotlinScriptResourceLoader.bundleExtension}").forEach { file ->
+    }.parent.listDirectoryEntries("*.${KotlinScriptResourceParser.bundleFileExtension}").forEach { file ->
 
-        KotlinScriptResourceLoader.parseEntrypoint(
+        KotlinScriptResourceParser.parseBundleFile(
             file.inputStream().bufferedReader().use(BufferedReader::readText).toScriptSource(), file.name, LOGGER
         )?.let {
             bundles += it
@@ -45,12 +45,13 @@ fun main() {
 
     LOGGER.info("Querying for bundles...")
 
-    getDirectory("bundles/").listFiles { file -> file.name.endsWith(".mockoge") }?.forEach { bundle ->
+    "bundles/".asFile.listFiles { file -> file.extension == mockoge }?.forEach { bundle ->
         LOGGER.debug("Found bundle [${bundle.name}]")
 
         val bundleZip = ZipFile(bundle)
         val entrypoints =
-            bundleZip.entries().asSequence().filter { KotlinScriptResourceLoader.isLoadable(it.name, LOGGER) }.toList()
+            bundleZip.entries().asSequence().filter { KotlinScriptResourceParser.isBundleFile(it.name, LOGGER) }
+                .toList()
 
         if (entrypoints.isEmpty()) {
             LOGGER.debug("Skipped bundle [${bundle.name}]: found no bundle scripts")
@@ -58,7 +59,7 @@ fun main() {
         }
 
         for (entrypoint in entrypoints) {
-            KotlinScriptResourceLoader.parseEntrypoint(
+            KotlinScriptResourceParser.parseBundleFile(
                 bundleZip.getInputStream(entrypoint).asString.toScriptSource(),
                 entrypoint.name,
                 LOGGER
@@ -73,16 +74,24 @@ fun main() {
     Registry.unfreeze()
 
     bundles.forEach { bundle ->
-        bundle.logger.debug("Initializing version {}", bundle.version)
+        bundle.logger.info("Initializing version {}", bundle.version)
 
         for ((registry, value) in bundle.definitions) {
-            registry[value.first] = value.second
+            bundle.logger.debug(
+                "Definition [{}] of type [{} added to registry [{}]",
+                value.first,
+                value.second::class.simpleName,
+                registry
+            )
+
+            RootRegistry[registry]?.let { it[value.first] = value.second }
         }
     }
 
     Registry.freeze()
 
     TODO("Scenes")
+    @Suppress("UNREACHABLE_CODE")
     TODO("Relations")
 
     // Mockoge(null, bundles)

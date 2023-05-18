@@ -8,10 +8,10 @@ import io.github.laylameower.mockoge.mesh.Vertex
 import org.joml.Vector3f
 import java.awt.Color
 
-fun Vertex.bundleIntoSequence() = sequenceOf(this)
+public fun Vertex.bundleIntoSequence(): Sequence<Vertex> = sequenceOf(this)
 
-fun Vector3f.toVertex(color: Color = Color.WHITE) = Vertex(this, color)
+public fun Vector3f.toVertex(color: Color = Color.WHITE): Vertex = Vertex(this, color)
 
-fun Array<Vector3f>.toVertices(color: Color = Color.WHITE) = asSequence().map { Vertex(it, color) }
+public fun Array<Vector3f>.toVertices(color: Color = Color.WHITE): Sequence<Vertex> = asSequence().map { Vertex(it, color) }
 
-fun Sequence<Vertex>.removeDuplicates() = distinct()
+public fun Sequence<Vertex>.removeDuplicates(): Sequence<Vertex> = distinct()

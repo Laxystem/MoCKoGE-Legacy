@@ -5,6 +5,8 @@ by [Gaming32's Kilo Engine](https://github.com/Gaming32/kilo-engine).*
 
 Pronounced "Mo-Koge" - but _you_ can pronounce it however you like.
 
+To [Our Discord](https://discord.gg/TAs7PtCqnm)
+
 ## Tooling
 
 ### Language
@@ -65,3 +67,15 @@ use *italics* are already implemented.
 
 > ***But so much stuff isn't done yet! How can you say MoCKoGE will be finished soon?** Well, I didn't say that. Also,
 most of the hard, infrastructure stuff is done. Note this list isn't sorted in any way.*
+
+### Crusades
+
+The crusades, like the ones that happened in the Middle Ages, try to replace what was there before.
+Basically, they're rewrites with fancy names.
+Note such rewrites may not even affect you:
+they may only break a singular feature of the engine, or just rewrite all the internals and keep the API the same.
+
+The following crusades are planned (_italics_ mean that crusade already happened):
+- _Renaming `Hexagine` to `MoCKoGE`_
+- Changing package `io.github.laylameower` to `la.lax`
+- Switching from `log4j` to another library, meant for logging (100% didn't forget its name™️)

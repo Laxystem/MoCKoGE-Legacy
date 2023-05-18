@@ -2,7 +2,6 @@
 
 package io.github.laylameower.mockoge
 
-import io.github.laylameower.mockoge.scene.Scene
 import io.github.laylameower.mockoge.util.applyWindowHints
 import io.github.laylameower.mockoge.util.*
 import org.joml.Vector2i
@@ -18,24 +17,24 @@ import org.lwjgl.glfw.GLFW.GLFW_TRUE as True
 import org.lwjgl.glfw.GLFW.glfwInit as tryToInitialize
 import org.lwjgl.system.MemoryUtil.NULL as Null
 
-class Mockoge(var scene: Scene, bundles: List<Bundle>) : Runnable {
+public class Mockoge(public var scene: Scene, bundles: List<Bundle>) : Runnable {
 
-    companion object {
+    public companion object {
         @JvmStatic
         internal lateinit var bundle: Bundle
             private set
     }
 
     private var window = 0L
-    var windowSize = Vector2i(600, 400)
+    public var windowSize: Vector2i = Vector2i(600, 400)
         private set
-    val time
+    public val time: Double
         get() = glfwGetTime()
-    var lastLoopTime = 0.0
+    public var lastLoopTime: Double = 0.0
         private set
-    var averageFPS = 0.0
+    public var averageFPS: Double = 0.0
         private set
-    var fps = 0.0
+    public var fps: Double = 0.0
         private set
     private var vao: Int = 0 // <- magic stuff it just works
     private var vbo: Int = 0 // <- they both exist dunno why
@@ -128,7 +127,7 @@ class Mockoge(var scene: Scene, bundles: List<Bundle>) : Runnable {
         // TODO("Input")
     }
 
-    @Suppress("unused", "UNUSED_PARAMETER")
+    @Suppress("UNUSED_PARAMETER")
     private fun update(deltaTime: Double) {}
 
     private fun render() {

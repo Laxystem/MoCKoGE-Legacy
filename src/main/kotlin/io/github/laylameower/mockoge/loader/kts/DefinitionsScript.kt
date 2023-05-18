@@ -3,25 +3,31 @@ package io.github.laylameower.mockoge.loader.kts
 import io.github.laylameower.mockoge.Identifier
 import io.github.laylameower.mockoge.Registry
 import io.github.laylameower.mockoge.RootRegistry
-import io.github.laylameower.mockoge.util.Named
 import io.github.laylameower.mockoge.util.at
 
-data class DefinitionsScript(private val namespace: String) : Named<String> by Named.Delegate(namespace) {
-    internal val definitions = mutableMapOf<Registry<*>, Pair<Identifier, Any>>()
+public data class DefinitionsScript(public val namespace: String) {
+    internal val definitions = mutableMapOf<Identifier, Pair<Identifier, Any>>()
 
-    operator fun <T : Any> Identifier.invoke(definitions: SpecificDefiner<T>) = definitions(Registrar(this))
+    public operator fun Registry<*>.invoke(definitions: SpecificDefiner) {
+        definitions(Registrar(RootRegistry[this]!!))
+    }
 
-    operator fun <T : Any> String.invoke(registries: RegistryReferencer<T>) = registries(NamespaceReference(this))
+    public operator fun Identifier.invoke(definitions: SpecificDefiner) {
+        definitions(Registrar(this))
+    }
 
-    inner class Registrar<T : Any>(private val registryIdentifier: Identifier) {
+    public operator fun String.invoke(registries: RegistryReferencer) {
+        registries(NamespaceReference(this))
+    }
 
-        infix fun Identifier.to(value: T) {
-            definitions[RootRegistry[registryIdentifier] ?: return] = Pair(this, value)
+    public inner class Registrar(private val registryIdentifier: Identifier) {
+        public infix fun String.to(value: Any) {
+            definitions[registryIdentifier] = Pair(this at namespace, value)
         }
     }
 
-    inner class NamespaceReference<T : Any>(private val namespace: String) {
-        operator fun String.invoke(definitions: SpecificDefiner<T>) {
+    public inner class NamespaceReference(private val namespace: String) {
+        public operator fun String.invoke(definitions: SpecificDefiner) {
             definitions(Registrar(this at namespace))
         }
     }

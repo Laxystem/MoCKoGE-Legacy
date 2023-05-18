@@ -15,6 +15,7 @@ val joml = "1.10.5"
 val log4j = "2.20.0"
 val semver = "1.4.2"
 val coroutines = "1.6.4"
+val collections = "0.3.5"
 
 val lwjglNatives = "natives-windows" // TODO: Support More Natives
 
@@ -25,6 +26,8 @@ dependencies {
     implementation("org.jetbrains.kotlin", "kotlin-scripting-jvm")
     implementation("org.jetbrains.kotlin", "kotlin-scripting-jvm-host")
     api("org.jetbrains.kotlinx", "kotlinx-coroutines-core", coroutines)
+    api("org.jetbrains.kotlin", "kotlin-reflect", kotlin.coreLibrariesVersion)
+    api("org.jetbrains.kotlinx", "kotlinx-collections-immutable-jvm", collections)
 
     api("org.joml", "joml", joml)
     api("org.apache.logging.log4j", "log4j-api", log4j)
@@ -50,7 +53,7 @@ val bundle = tasks.register("bundle") {
         project.delete("out/bundles")
 
         copy {
-            from("build/libs")
+            from("$buildDir/libs")
             include("*.jar")
             exclude("mockoge-$version.jar")
             exclude("*-sources.jar")
@@ -67,6 +70,15 @@ val bundle = tasks.register("bundle") {
 
 kotlin {
     jvmToolchain(17)
+    explicitApi()
+}
+
+tasks.processResources {
+    inputs.property("version", version)
+
+    filesMatching("*.bundle.kts") {
+        expand("version" to version)
+    }
 }
 
 application {

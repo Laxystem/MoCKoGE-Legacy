@@ -5,7 +5,7 @@ package io.github.laylameower.mockoge.mesh
  */
 @Suppress("DEPRECATION")
 @Deprecated("May not be available in full release. Here for reference.")
-data class Model(override val vertices: Array<Vertex>) : Mesh, Iterable<Vertex> by vertices.asIterable() {
+public data class Model(override val vertices: Array<Vertex>) : Mesh, Iterable<Vertex> by vertices.asIterable() {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

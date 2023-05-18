@@ -1,47 +1,81 @@
 package io.github.laylameower.mockoge
 
-import io.github.laylameower.mockoge.Mockoge.Companion.bundle
-import io.github.laylameower.mockoge.util.Named
-import io.github.laylameower.mockoge.util.mockoge
+import io.github.laylameower.mockoge.util.*
 import org.apache.logging.log4j.LogManager
+import kotlin.collections.Iterable
+import kotlin.collections.Iterator
+import kotlin.collections.Map
+import kotlin.collections.asSequence
+import kotlin.collections.iterator
+import kotlin.collections.mutableMapOf
+import kotlin.collections.set
+import kotlin.reflect.KClass
+import kotlin.reflect.full.safeCast
+import kotlinx.collections.immutable.toImmutableMap
 
 /**
- * @param T value type
+ * Stores entries of a [specific type][T] under unique identifiers.
+ * @param T the type of entries this registry stores
+ * @property valueType the type of entries this registry stores, for JVM reasons.
  */
-abstract class Registry<T : Any>(override val name: Identifier, val valueType: Class<T>) :
-    Iterable<Map.Entry<Identifier, T>>, Named<Identifier> {
-    private val contents = mutableMapOf<Identifier, T>()
+public abstract class Registry<T : Any>(public val valueType: KClass<T>) :
+    Iterable<Map.Entry<Identifier, T>>{
+    private val entries = mutableMapOf<Identifier, T>()
 
-    init {
-        @Suppress("LeakingThis")
-        RootRegistry.register(name, this)
-    }
+    /**
+     * registries are kept in the [RootRegistry], which is included in the [RootRegistry],
+     * which is included in the [RootRegistry]...
+     */
+    public val name: Identifier get() = RootRegistry[this]!!
 
-    fun register(identifier: Identifier, value: T): T? = if (contents.containsKey(identifier)) {
-        bundle.logger.warn("Attempted to override [$identifier] in registry [$name] with [$value]")
+    /**
+     * Adds an [entry] to the registry.
+     *
+     * May return `null` if:
+     * - an entry is already registered with the given [identifier]
+     * - the given [entry] already exists in the registry
+     * - registries are frozen (some registries may ignore this requirement)
+     * - the registry doesn't deem the provided [entry] and [identifier] to be [valid][isValid]
+     */
+    public fun register(identifier: Identifier, entry: T): T? = if (entries.containsKey(identifier)) {
+        LOGGER.warn("Attempted to override [$identifier] in registry [$name] with [$entry]")
         null
-    } else if (contents.containsValue(value)) {
-        bundle.logger.warn("Attempted to register duplicate of [$value] at [$identifier] in registry [$name]")
+    } else if (entries.containsValue(entry)) {
+        LOGGER.warn("Attempted to register duplicate of [$entry] at [$identifier] in registry [$name]")
         null
-    } else if (isValid(value, identifier)) {
-        contents[identifier] = value
-        value
+    } else if (isValid(entry, identifier)) {
+        entries[identifier] = entry
+        entry
     } else {
-        bundle.logger.warn("Attempted to insert invalid value [$value] at [$identifier] in registry [$name]")
+        LOGGER.warn("Attempted to insert invalid value [$entry] at [$identifier] in registry [$name]")
         null
     }
 
-    open fun isValid(value: T, identifier: Identifier) = !isFrozen
+    /**
+     * [Registers][register] the given [entry] if its type matches the [Registry's][T].
+     */
+    public operator fun set(identifier: Identifier, entry: Any): T? = valueType.safeCast(entry)?.let {
+        register(identifier, it)
+    }
 
-    override fun iterator() = contents.iterator()
+    public open fun isValid(entry: T, identifier: Identifier): Boolean = !isFrozen
 
-    operator fun get(identifier: Identifier) = contents[identifier]
-    operator fun get(value: T) = contents.asSequence().filter { it.value == value }.firstOrNull()?.key
+    override fun iterator(): Iterator<Map.Entry<Identifier, T>> = entries.toImmutableMap().iterator()
 
-    companion object {
+    public operator fun get(identifier: Identifier): T? = entries[identifier]
+    public operator fun get(entry: T): Identifier? = entries.asSequence().filter { it.value == entry }.firstOrNull()?.key
+
+    override fun toString(): String = "$name of ${valueType.simpleName}"
+
+    public val T.identifier: Identifier? get() = this@Registry[this]
+
+    public fun contains(identifier: Identifier): Boolean = entries.containsKey(identifier)
+    public fun contains(entry: T): Boolean = entries.containsValue(entry)
+
+    public companion object {
         private val LOGGER = LogManager.getLogger("$mockoge/registry")
 
-        var isFrozen = true
+        public var isFrozen: Boolean = true
             private set
 
         internal fun unfreeze() {
