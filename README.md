@@ -7,13 +7,33 @@ Pronounced "Mo-Koge" - but _you_ can pronounce it however you like.
 
 To [Our Discord](https://discord.gg/TAs7PtCqnm)
 
+### Modular
+While MoCKoGE *can* be used as a stand-alone game engine, where's the fun in that? MoCKoGE code, scenes, assets, everything - are all stored in *bundles*. a bundle is a compressed directory that contains code and assets, whether it be a library, the game itself, or mods. See more below in the [bundles](#bundles) section.
+
+This technique allows you to have two full, working games on the same MoCKoGE installation, with almost no performance hit, and enables out-of-the-box support for mods!
+
+### Concurrent
+
+MoCKoGE uses Kotlin's *coroutines* library to run multiple events at the same time, making stupidly fast.
+
+The `C` also stands for `Caching`, because MoCKoGE caches stuff. Very fast.
+
+### Kotlin
+
+MoCKoGE is written in kotlin, scripted in kotlin, basically *everything* in kotlin.
+
+Using Kotlin Multiplatform, MoCKoGE games can be compiled to run on the JVM, Windows, Linux, MacOS, WASM, Android, iOS, and more.
+
+### Game Engine
+
+Well, it's a game engine. And it's [open source](LICENSE.md).
+
 ## Tooling
 
 ### Language
 
 You ***must*** have a basic knowledge of Kotlin (or decent experience in Java and easy access
-to [the Kotlin Documentation](https://kotlinlang.org/docs/home.html)) in order to use MoCKoGE - learning it "on the way"
-isn't such a good idea.
+to [the Kotlin Documentation](https://kotlinlang.org/docs/home.html)) in order to use MoCKoGE - learning it "on the way" isn't such a good idea.
 
 Java isn't officially supported, as it cannot override `suspend` (asynchronous/concurrent) functions, and usage of
 Kotlin Scripts is required (unless you're using a [custom resource loader](#todo)) but feel free to make an issue (or PR
@@ -21,7 +41,7 @@ it yourself) if you need a feature or two.
 
 ### Build System
 
-We recommend using Gradle w/ the Kotlin DSL. There'll be an [official Gradle Plug-In](#todo).
+MoCKoGE uses the Kotlin Multiplatform, that is built ontop of Gradle. There'll be a [plugin](#todo) to remove some of the complexity.
 
 ### IDE
 
@@ -43,10 +63,11 @@ be inaccurate or not updated.*
 
 ## TODO
 
-As MoCKoGE is still a work-in-progress, there are a good deal of stuff to be done - feel free to contribute. Items that
-use *italics* are already implemented.
+As MoCKoGE is still a work-in-progress, there is a good deal of stuff to be done - feel free to contribute. Items that
+use *italics* are already implemented, and **bold** marks the current focus.
 
-- Relations API
+- **Math API** (`mockoge:math`)
+- Relations API (`mockoge:utilities`)
 - Resource Loader
     - Kotlin Script Resource Loader
         - Bundles
@@ -54,16 +75,18 @@ use *italics* are already implemented.
             - Relations
         - Scenes
         - Assets
-    - Support for custom Resource Loaders
+    - Json5 Resource Loader
+    - YAML Resource Loader
 - Events (Using Kotlin Coroutines)
-- Rendering (Using [LearnOpenGL.com](https://learnopengl.com))
+- Rendering (Using Vulkan)
     - Textures
-    - Scripts
+    - Shaders
 - Input System
-- Components
-    - Relations
-    - UI (Potentially Using [Dear ImgGui](https://github.com/kotlin-graphics/imgui) & NanoVG)
-- Gradle Plug-In
+- UI API
+    - Built-in
+    - Extra (`mockoge:ui`)
+- Gradle Plug-In (`mockoge:gradle`)
+- IDEA Plug-In (`mockoge:idea`)
 
 > ***But so much stuff isn't done yet! How can you say MoCKoGE will be finished soon?** Well, I didn't say that. Also,
 most of the hard, infrastructure stuff is done. Note this list isn't sorted in any way.*
