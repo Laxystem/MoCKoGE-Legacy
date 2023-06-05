@@ -13,7 +13,7 @@ This technique allows you to have two full, working games on the same MoCKoGE in
 
 ### Concurrent
 
-MoCKoGE uses Kotlin's *coroutines* library to run multiple events at the same time, making stupidly fast.
+MoCKoGE uses Kotlin's *coroutines* library to run multiple events at the same time, making it stupidly fast.
 
 The `C` also stands for `Caching`, because MoCKoGE caches stuff. Very fast.
 
