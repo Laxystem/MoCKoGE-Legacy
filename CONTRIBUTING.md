@@ -1,11 +1,41 @@
 # Contributing to MoCKoGE
-MoCKoGE is a sophisticated piece of technology, and even for its creators, it is hard to understand it sometimes.
+*Before* contributing, you must read the [code of conduct](CODE_OF_CONDUCT.md). *By* contributing, you're publishing your code under the terms of the [license](LICENSE.md).
+
+MoCKoGE is a sophisticated piece of technology, and even for its creators, it is hard to understand it sometimes. Therefore, before contributing, please read the following document. If your PR doesn't comply with this document, it may be rejected or changed.
 
 ## Requirements
-- Have OpenJDK 17 installed.
+- OpenJDK 17
 - An IDE with Git, Kotlin, and Gradle support, preferably Intellij IDEA. See [here](README.md#ide) for more details.
 - Decent knowledge and experience with how the engine works, Kotlin, Git, gradle, and if you're messing with the build system, the kotlin multiplatform plug-in.
 - Willingness to learn, and have fun!
+
+## Contribution Cycle
+
+Before creating a PR (pull/push request), you must first create an issue, and get it approved for contribution - otherwise, your hard work may be rejected (we don't want that...)
+
+For a PR to be merged, its build and tests must be succesfull, no merge conflicts must be found, the contribution guidelines must be complied, and it must be reviewed (currently by two people, one of which is the person who presses the big blue "merge" button).
+
+## Documentation & Licensing
+
+At the start of each source code file, the following notice must be written:
+```kotlin
+/*
+* This Source Code Form is subject to the terms of the Mozilla Public
+* License, v. 2.0. If a copy of the MPL was not distributed with this
+* file, You can obtain one at http://mozilla.org/MPL/2.0/.
+*/
+
+package io.github.laylameower.mockoge...
+```
+You may configure your IDE to only add the above notice to *changed* files only, to prevent creating unneeded merge conflicts.
+
+> ***Note:** From now on, we'll call every code element, for example, but not limited to, functions, classses, properties, and more, that KDoc supports "code element".*
+
+Additionally, you must document using KDoc all changed and new code elements, explaining its intended usage, inputs, outputs, how it works, limitations, etc. If you've created a new element, or majorly refactored an existing one, you must add your Github username to the KDoc, under the `@author <username>` tag. If there's already an author tag, add another one below it.
+
+### Creating Tests
+
+Create as much tests for your code as possible. Every single edge case deserves a test!
 
 ## Project Structure
 
