@@ -7,6 +7,8 @@ MoCKoGE is a sophisticated piece of technology, and even for its creators, it is
 - OpenJDK 17
 - An IDE with Git, Kotlin, and Gradle support, preferably Intellij IDEA. See [here](README.md#ide) for more details.
 - Decent knowledge and experience with how the engine works, Kotlin, Git, gradle, and if you're messing with the build system, the kotlin multiplatform plug-in.
+- Your GitHub username on the environment variable `GITHUB_USERNAME`
+- A GitHub token with the `read:packages` permission on the environment variable `GITHUB_PASSWORD`
 - Willingness to learn, and have fun!
 
 ## Contribution Cycle
