@@ -1,11 +1,10 @@
+> ***Note:** This document may not be always up-to-date, and may refer to a future change that isn't implemented already. This note will be removed when MoCKoGE goes beta.*
 # MoCKoGE
 
 ***Mo**dular **C**oncurrent **Ko**tlin **G**ame **E**ngine, inspired
 by [Gaming32's Kilo Engine](https://github.com/Gaming32/kilo-engine).*
 
-Pronounced "Mo-Koge" - but _you_ can pronounce it however you like.
-
-To [Our Discord](https://discord.gg/TAs7PtCqnm)
+Join the [Discord](https://discord.gg/TAs7PtCqnm).
 
 ### Modular
 While MoCKoGE *can* be used as a stand-alone game engine, where's the fun in that? MoCKoGE code, scenes, assets, everything - are all stored in *bundles*. a bundle is a compressed directory that contains code and assets, whether it be a library, the game itself, or mods. See more below in the [bundles](#bundles) section.
@@ -20,7 +19,7 @@ The `C` also stands for `Caching`, because MoCKoGE caches stuff. Very fast.
 
 ### Kotlin
 
-MoCKoGE is written in kotlin, scripted in kotlin, basically *everything* in kotlin.
+MoCKoGE is written in Kotlin, scripted in Kotlin, basically *everything* in kotlin.
 
 Using Kotlin Multiplatform, MoCKoGE games can be compiled to run on the JVM, Windows, Linux, MacOS, WASM, Android, iOS, and more.
 
@@ -28,16 +27,18 @@ Using Kotlin Multiplatform, MoCKoGE games can be compiled to run on the JVM, Win
 
 Well, it's a game engine. And it's [open source](LICENSE.md).
 
+It's better than *Unity GE* - because it's open source, and it's Kotlin, not C# - for any other reason Unity is probably better than MoCKoGE - and than *Unreal GE* - because it loads in less than 50 minutes. It's also better than *Godot*, because it doesn't use the weird blue-ish color theme, and Kotlin support is official and actually works. Basically - you want Kotlin? *MoCKoGE* is (probably) the engine for you.
+
 ## Tooling
 
 ### Language
 
-You ***must*** have a basic knowledge of Kotlin (or decent experience in Java and easy access
-to [the Kotlin Documentation](https://kotlinlang.org/docs/home.html)) in order to use MoCKoGE - learning it "on the way" isn't such a good idea.
+You ***must*** have a basic knowledge of Kotlin and easy access to [the Kotlin Documentation](https://kotlinlang.org/docs/home.html) in order to use MoCKoGE -
+learning it "on the way" isn't such a good idea.
 
-Java isn't officially supported, as it cannot override `suspend` (asynchronous/concurrent) functions, and usage of
-Kotlin Scripts is required (unless you're using a [custom resource loader](#todo)) but feel free to make an issue (or PR
-it yourself) if you need a feature or two.
+Java isn't officially supported, as it cannot override `suspend` (asynchronous/concurrent) functions and doesn't support kotlin multiplatform, not allowing your game to run on the Xbox or on the web.
+
+> ***Note:** Feel free to make an issue if you need a feature or two - just create an issue before PRing, as your functionality might be possible with an external bundle, and we might not want it built-in to the engine.*
 
 ### Build System
 
@@ -87,18 +88,21 @@ use *italics* are already implemented, and **bold** marks the current focus.
     - Extra (`mockoge:ui`)
 - Gradle Plug-In (`mockoge:gradle`)
 - IDEA Plug-In (`mockoge:idea`)
+- Documentation website using Dokka ([mockoge.lax.la](https://mockoge.lax.la/))
 
 > ***But so much stuff isn't done yet! How can you say MoCKoGE will be finished soon?** Well, I didn't say that. Also,
-most of the hard, infrastructure stuff is done. Note this list isn't sorted in any way.*
+most of the hard, infrastructure stuff is ~~done~~ WIP. Note this list isn't sorted in any way.*
 
 ### Crusades
 
 The crusades, like the ones that happened in the Middle Ages, try to replace what was there before.
 Basically, they're rewrites with fancy names.
 Note such rewrites may not even affect you:
-they may only break a singular feature of the engine, or just rewrite all the internals and keep the API the same.
+they may only break a singular feature of the engine, or just rewrite all the internals and keep the API the same. On the other hand, they can throw your entire project into chaos.
 
 The following crusades are planned (_italics_ mean that crusade already happened):
 - _Renaming `Hexagine` to `MoCKoGE`_
 - Changing package `io.github.laylameower` to `la.lax`
-- Switching from `log4j` to another library, meant for logging (100% didn't forget its name™️)
+- *Switching from `log4j` to `KLogging`*
+- *Separating the single-project single-platform project to a gradle multi-project kotlin multi-platform project structure, renaming `mockoge` to `mockoge:core`*
+- Separating `mockoge:core.util` into `mockoge:util`
