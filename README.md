@@ -4,8 +4,6 @@
 ***Mo**dular **C**oncurrent **Ko**tlin **G**ame **E**ngine, inspired
 by [Gaming32's Kilo Engine](https://github.com/Gaming32/kilo-engine).*
 
-Join the [Discord](https://discord.gg/TAs7PtCqnm).
-
 ### Modular
 While MoCKoGE *can* be used as a stand-alone game engine, where's the fun in that? MoCKoGE code, scenes, assets, everything - are all stored in *bundles*. a bundle is a compressed directory that contains code and assets, whether it be a library, the game itself, or mods. See more below in the [bundles](#bundles) section.
 
@@ -28,6 +26,12 @@ Using Kotlin Multiplatform, MoCKoGE games can be compiled to run on the JVM, Win
 Well, it's a game engine. And it's [open source](LICENSE.md).
 
 It's better than *Unity GE* - because it's open source, and it's Kotlin, not C# - for any other reason Unity is probably better than MoCKoGE - and than *Unreal GE* - because it loads in less than 50 minutes. It's also better than *Godot*, because it doesn't use the weird blue-ish color theme, and Kotlin support is official and actually works. Basically - you want Kotlin? *MoCKoGE* is (probably) the engine for you.
+
+## Community
+
+Please read the [license](LICENSE.md), the [contribution guidelines](CONTRIBUTING.md), and the [code of conduct](CODE_OF_CONDUCT.md).
+
+You can also join our [Discord](https://discord.gg/TAs7PtCqnm)!
 
 ## Tooling
 
@@ -68,7 +72,7 @@ As MoCKoGE is still a work-in-progress, there is a good deal of stuff to be done
 use *italics* are already implemented, and **bold** marks the current focus.
 
 - **Math API** (`mockoge:math`)
-- Relations API (`mockoge:utilities`)
+- Relations API (`mockoge:util`)
 - Resource Loader
     - Kotlin Script Resource Loader
         - Bundles
@@ -101,8 +105,8 @@ Note such rewrites may not even affect you:
 they may only break a singular feature of the engine, or just rewrite all the internals and keep the API the same. On the other hand, they can throw your entire project into chaos.
 
 The following crusades are planned (_italics_ mean that crusade already happened):
-- _Renaming `Hexagine` to `MoCKoGE`_
+- Separating `mockoge:core.util` into `mockoge:util`
 - Changing package `io.github.laylameower` to `la.lax`
+- _Renaming `Hexagine` to `MoCKoGE`_
 - *Switching from `log4j` to `KLogging`*
 - *Separating the single-project single-platform project to a gradle multi-project kotlin multi-platform project structure, renaming `mockoge` to `mockoge:core`*
-- Separating `mockoge:core.util` into `mockoge:util`
