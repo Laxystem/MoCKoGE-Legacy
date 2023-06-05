@@ -31,7 +31,7 @@ You may configure your IDE to only add the above notice to *changed* files only,
 
 > ***Note:** From now on, we'll call every code element, for example, but not limited to, functions, classses, properties, and more, that KDoc supports "code element".*
 
-Additionally, you must document using KDoc all changed and new code elements, explaining its intended usage, inputs, outputs, how it works, limitations, etc. If you've created a new element, or majorly refactored an existing one, you must add your Github username to the KDoc, under the `@author <username>` tag. If there's already an author tag, add another one below it.
+Additionally, you must document using KDoc all changed and new code elements, explaining its intended usage, inputs, outputs, how it works, limitations, etc. If you create, refactor, or implement a new non-`abstract` non-`expect` element, add your Github username to the KDoc under the `@author <username>` tag. If an author tag already exists, add another one below it.
 
 ### Creating Tests
 
