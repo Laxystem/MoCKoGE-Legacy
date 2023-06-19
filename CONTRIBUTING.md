@@ -5,17 +5,20 @@ MoCKoGE is a sophisticated piece of technology, and even for its creators, it is
 
 ## Requirements
 - OpenJDK 17
-- An IDE with Git, Kotlin, and Gradle support, preferably Intellij IDEA. See [here](README.md#ide) for more details.
+- An IDE with Git, Kotlin, and Gradle support, preferably IntelliJ IDEA. See [here](README.md#ide) for more details.
 - Decent knowledge and experience with how the engine works, Kotlin, Git, gradle, and if you're messing with the build system, the kotlin multiplatform plug-in.
 - Your GitHub username on the environment variable `GITHUB_USERNAME`
 - A GitHub token with the `read:packages` permission on the environment variable `GITHUB_PASSWORD`
-- Willingness to learn, and have fun!
+- Willingness to learn and have fun!
 
 ## Contribution Cycle
 
-Before creating a PR (pull/push request), you must first create an issue, and get it approved for contribution - otherwise, your hard work may be rejected (we don't want that...)
+Before creating a PR (pull/push request), you must first create an issue,
+and get it approved for contribution—otherwise, your hard work may be rejected (we don't want that...)
 
-For a PR to be merged, its build and tests must be succesfull, no merge conflicts must be found, the contribution guidelines must be complied, and it must be reviewed (currently by two people, one of which is the person who presses the big blue "merge" button).
+For a PR to be merged, its build and tests must be successful,
+no merge conflicts must be found, the contribution guidelines must be complied,
+and it must be reviewed (currently by two people, one of which is the person who presses the big blue "merge" button).
 
 ## Documentation & Licensing
 
@@ -24,26 +27,36 @@ At the start of each source code file, the following notice must be written:
 /*
 * This Source Code Form is subject to the terms of the Mozilla Public
 * License, v. 2.0. If a copy of the MPL was not distributed with this
-* file, You can obtain one at http://mozilla.org/MPL/2.0/.
+* file, You can obtain one at https://mozilla.org/MPL/2.0/.
 */
 
 package io.github.laylameower.mockoge...
 ```
 You may configure your IDE to only add the above notice to *changed* files only, to prevent creating unneeded merge conflicts.
 
-> ***Note:** From now on, we'll call every code element, for example, but not limited to, functions, classses, properties, and more, that KDoc supports "code element".*
+> ***Note:** From now on, we'll call every code element, for example, but not limited to functions, classes, properties, and more, that KDoc supports "code element".*
 
-Additionally, you must document using KDoc all changed and new code elements, explaining its intended usage, inputs, outputs, how it works, limitations, etc. If you create, refactor, or implement a new non-`abstract` non-`expect` element, add your Github username to the KDoc under the `@author <username>` tag. If an author tag already exists, add another one below it.
+Additionally, you must document using KDoc all changed and new code elements,
+explaining its intended usage, inputs, outputs, how it works, limitations, etc. If you create, refactor,
+or implement a new non-`abstract` non-`expect` element,
+add your GitHub username to the KDoc under the `@author <username>` tag.
+If an author tag already exists, add another one below it.
 
 ### Creating Tests
 
-Create as much tests for your code as possible. Every single edge case deserves a test!
+Create as many tests for your code as possible. All edge-cases deserve tests!
 
 ## Project Structure
 
-The `mockoge` project is separated to modules - for example, `mockoge:math`, `mockoge:core`, and `mockoge:util`. Each module declares in its `README.md` the modules and libraries it depends on, its purpose, and its own contribution guidelines.
+The `mockoge` project is separated to modules - for example, `mockoge:math`, `mockoge:core`, and `mockoge:util`.
+Each module declares in its `README.md` the modules and libraries it depends on,
+its purpose, and its own contribution guidelines.
 
-Dependency (and module) versions are declared in [`gradle.properties`](gradle.properties) - all mockoge modules must depend on the same dependency version - for example, `mockoge:util` and `mockoge:core` may not depend on different versions of `semver`, to prevent complications in the build scripts. The following syntax can be used to get the version of a dependency or a module:
+Dependency (and module) versions are declared in [`gradle.properties`](gradle.properties) -
+all mockoge modules must depend on the same dependency version.
+For example,`mockoge:util` and `mockoge:core` may not depend on different versions of `semver`,
+to prevent complications in the build scripts.
+The following syntax can be used to get the version of a dependency or a module:
 ```kotlin
 // <module>:build.gradle.kts
 
@@ -65,6 +78,8 @@ subprojects {
 }
 ```
 ### Package Structure
-The package naming is as such: `io.github.laylameower.mockoge.<module>.<package>` (will soon be changed to `la.lax.mockoge.<module>.<package>` - see more [here](README.md#crusades)), and may be shortened to `mockoge:<module>.<package>`, that way we all know what package exactly are we talking about.
+The package naming is as such: `io.github.laylameower.mockoge.<module>.<package>`
+(will soon be changed to `la.lax.mockoge.<module>.<package>`),
+and may be shortened to `mockoge:<module>.<package>`, that way we all know what package exactly are we talking about.
 
 The purpose of a package is explained briefly in the module's `README.md`, and may be explained further in a `README.md` of its own, if needed.
