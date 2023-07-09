@@ -22,6 +22,8 @@ and it must be reviewed (currently by two people, one of which is the person who
 
 ### [Versioning](VERSIONING.md)
 
+Additionally, your PR may be changed or rejected if you've misused versioning. Please read the [full versioning guide](VERSIONING.md).
+
 ## Documentation & Licensing
 
 At the start of each source code file, the following notice must be written:
