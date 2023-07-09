@@ -20,6 +20,8 @@ For a PR to be merged, its build and tests must be successful,
 no merge conflicts must be found, the contribution guidelines must be complied,
 and it must be reviewed (currently by two people, one of which is the person who presses the big blue "merge" button).
 
+### [Versioning](VERSIONING.md)
+
 ## Documentation & Licensing
 
 At the start of each source code file, the following notice must be written:
