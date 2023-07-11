@@ -1,6 +1,6 @@
 # MoCKoGE Versioning
 
-Before reading this document, read the [official Kotlin backwards compatibility guide](https://kotlinlang.org/docs/jvm-api-guidelines-backward-compatibility.html).
+Before reading this document, read the [official Kotlin backwards compatibility guide](https://kotlinlang.org/docs/jvm-api-guidelines-backward-compatibility.html) and the [semver guide](https://semver.org/).
 
 ### `major.minor.patch-stage`
 
@@ -28,8 +28,10 @@ Each MoCKoGE [module](https://github.com/LaylaMeower/MoCKoGE/blob/community/CONT
 - For releases, drop this element.
 - `rc` (release candicate) versions are released for public beta-testing, in order to verify the release-to-be has no bugs. One week later, if no major bugs were found, the same build, versioned the same except without the stage, should be released. Otherwise, another release candicate should be released with an increased `patch`, and go through the same 7-day process.
 - `beta` versions only increase `patch`, and when they become stable, `major` and `minor` should be increased if necessary. May be used for production, although unrecommended.
-- `alpha` versions have a `major` of `0` - the entire module is still experimental. Shouldn't be used for production. Work the same as `beta`s do.
+- `alpha` versions have a `major` of `0` - the entire module is still experimental. Shouldn't be used for production. Work the same as `beta`
 
+## Publishing
+- Releases *without* a `stage` should be released to Maven Central and to `maven.laxla.quest`.
+- Releases *with* a `stage` should be released to `devmaven.laxla.quest`.
 
-## Important Note
-> ***All*** versions must be uploaded to Maven Central. A version bump must happen on a special commit that ***only*** changes the version in `gradle.properties` ***immediately before*** release (unless the `beta`/`alpha` consists of a single commit, that has already increased the version). If there was another commit between the version increase and the release, increase `patch` before releasing. Snapshots (`-SNAPSHOT`) may ***not*** be used, as Maven Central doesn't support them, and they're a hassle to work with. Additionally, the version ***must*** be increased in the first commit after a release.
+> ***Note:** for more information about the cursed way `maven.laxla.quest` and `devmaven.laxla.quest` *work*, see [this discord message](https://discord.com/channels/734077874708938864/783091855616901200/1127858272276320327).
