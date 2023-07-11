@@ -86,14 +86,8 @@ be inaccurate or not updated.*
 As MoCKoGE is still a work-in-progress, there is a good deal of stuff to be done - feel free to contribute. Items that
 use *italics* are already implemented, and **bold** marks the current focus.
 
-- **Math API** (`mockoge:math`)
-- Relations API (`mockoge:util` or `mockoge:core`)
-- Compilation
-    - _JVM_
-    - WASM
-    - Native
-    - Android
-    - iOS+
+- Relations API (`mockoge:core`)
+- Compilation (see LaylaMeower/MoCKoGE#3)
 - Sandbox
     - JVM
     - WASM
@@ -111,7 +105,7 @@ use *italics* are already implemented, and **bold** marks the current focus.
         - YAML
         - TOML
 - Events (Using Kotlin Coroutines)
-- Rendering (Using Vulkan)
+- Rendering (Using WebGPU)
     - Textures
     - Shaders
 - Input System
@@ -120,7 +114,10 @@ use *italics* are already implemented, and **bold** marks the current focus.
     - Extra (`mockoge:ui`)
 - Gradle Plug-In (`mockoge:gradle`)
 - IDEA Plug-In (`mockoge:idea`)
-- Documentation website using Dokka ([mockoge.lax.la](https://mockoge.lax.la/))
+- Website (`mockoge.laxla.quest`)
+    - About MoCKoGE
+    - Documentation (`/docs`)
+    - KDoc (`/<module>`, e.g. `/core`) using Dokka
 
 > ***But so much stuff isn't done yet! How can you say MoCKoGE will be finished soon?** Well, I didn't say that. Also,
 most of the hard, infrastructure stuff is ~~done~~ WIP. Note this list isn't sorted in any way.*
