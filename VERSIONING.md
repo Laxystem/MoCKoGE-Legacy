@@ -34,4 +34,4 @@ Each MoCKoGE [module](https://github.com/LaylaMeower/MoCKoGE/blob/community/CONT
 - Releases *without* a `stage` should be released to Maven Central and to `maven.laxla.quest`.
 - Releases *with* a `stage` should be released to `devmaven.laxla.quest`.
 
-> ***Note:** for more information about the cursed way `maven.laxla.quest` and `devmaven.laxla.quest` *work*, see [this discord message](https://discord.com/channels/734077874708938864/783091855616901200/1127858272276320327).
+> ***Note:** for more information about the cursed way `maven.laxla.quest` and `devmaven.laxla.quest` *work*, see [this discord message](https://discord.com/channels/734077874708938864/783091855616901200/1127858272276320327).*
